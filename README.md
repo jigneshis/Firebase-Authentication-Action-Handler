@@ -1,42 +1,61 @@
-# Firebase Authentication with Custom Action URLs
+# Firebase Authentication Action Handler
 
-This project demonstrates how to set up Firebase Authentication with custom action URLs for handling password resets, email verification, and other authentication actions.
+This site handles Firebase authentication actions (password reset, email verification) for the Turri platform at `auth.turri.in.net`.
 
-## 🚀 Features
+## 🎯 Purpose
 
-- **Password Reset**: Secure password reset flow with email verification
-- **Email Verification**: Verify user email addresses after signup
-- **Email Recovery**: Recover email addresses for account security
-- **Custom Action URLs**: Handle all Firebase auth actions through your own domain
-- **Beautiful UI**: Modern, responsive design with smooth animations
-- **Error Handling**: Comprehensive error handling and user feedback
-- **TypeScript**: Full TypeScript support for better development experience
+When users click on "forgot password" or email verification links, they are redirected to this custom domain instead of Firebase's default pages, providing a branded experience.
 
-## 📋 Setup Instructions
+## 🚀 How It Works
 
-### 1. Firebase Project Setup
+1. **User requests password reset** in your main app
+2. **Firebase sends email** with custom action URL pointing to `auth.turri.in.net/auth-action`
+3. **User clicks link** and is redirected here with authentication parameters
+4. **This site handles the action** (password reset form, email verification, etc.)
+5. **User is redirected back** to the main app after completion
 
-1. Go to the [Firebase Console](https://console.firebase.google.com/)
-2. Create a new project or select an existing one
-3. Navigate to **Authentication** > **Sign-in method**
-4. Enable **Email/Password** authentication
-5. Go to **Authentication** > **Templates** > **Email address verification**
-6. Click **Edit** (pencil icon) for the email template you want to customize
-7. Set the **Action URL** to: `https://your-domain.com/auth-action`
-   - For local development: `http://localhost:5173/auth-action`
-   - For production: `https://yourdomain.com/auth-action`
+## 📋 Firebase Console Setup
 
-### 2. Firebase Configuration
+### Action URL Configuration
 
-1. Go to **Project Settings** > **General** > **Your apps**
-2. Click **Add app** and select **Web**
-3. Register your app and copy the configuration object
-4. Update `src/firebase/config.ts` with your Firebase credentials:
+Set the following Action URL in Firebase Console:
+
+**https://auth.turri.in.net/auth-action**
+
+### Steps:
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Select your project
+3. Navigate to **Authentication** > **Templates**
+4. For each email template:
+   - Click **Edit** (pencil icon)
+   - Set **Action URL** to: `https://auth.turri.in.net/auth-action`
+   - Save changes
+
+### Supported Actions:
+- **Password Reset** (`mode=resetPassword`)
+- **Email Verification** (`mode=verifyEmail`) 
+- **Email Recovery** (`mode=recoverEmail`)
+
+## 🔧 Technical Details
+
+### URL Structure
+```
+https://auth.turri.in.net/auth-action?mode=resetPassword&oobCode=ABC123&continueUrl=https://turri.in.net
+```
+
+**Parameters:**
+- `mode`: Action type (resetPassword, verifyEmail, recoverEmail)
+- `oobCode`: One-time action code from Firebase
+- `continueUrl`: Redirect URL after completion (optional)
+- `lang`: Language code (optional)
+
+### Firebase Configuration
+Update `src/firebase/config.ts` with your Firebase project credentials:
 
 ```typescript
 const firebaseConfig = {
   apiKey: "your-api-key",
-  authDomain: "your-auth-domain",
+  authDomain: "your-auth-domain", 
   projectId: "your-project-id",
   storageBucket: "your-storage-bucket",
   messagingSenderId: "your-messaging-sender-id",
@@ -44,82 +63,14 @@ const firebaseConfig = {
 };
 ```
 
-### 3. Custom Action URL Setup
+## 🎨 Features
 
-The custom action URL allows you to handle Firebase auth actions (like password resets) through your own domain instead of Firebase's default domain.
-
-**In Firebase Console:**
-1. Go to **Authentication** > **Templates**
-2. For each email template (Password reset, Email verification, etc.):
-   - Click the **Edit** (pencil) icon
-   - Set the **Action URL** to your domain + `/auth-action`
-   - Save the changes
-
-**Supported Modes:**
-- `resetPassword` - Password reset functionality
-- `verifyEmail` - Email verification after signup
-- `recoverEmail` - Email recovery for account security
-
-### 4. URL Structure
-
-The auth action URLs will have this structure:
-```
-https://yourdomain.com/auth-action?mode=resetPassword&oobCode=ABC123&continueUrl=https://yourdomain.com
-```
-
-**Parameters:**
-- `mode`: The action type (resetPassword, verifyEmail, recoverEmail)
-- `oobCode`: The one-time action code from Firebase
-- `continueUrl`: Where to redirect after successful action
-- `lang`: Language code (optional)
-
-## 🛠️ Development
-
-1. Install dependencies:
-```bash
-npm install
-```
-
-2. Start the development server:
-```bash
-npm run dev
-```
-
-3. Test the authentication flows:
-   - Use the demo interface to send password reset emails
-   - Create new accounts and verify emails
-   - Test the custom action URLs
-
-## 📁 Project Structure
-
-```
-src/
-├── components/
-│   ├── AuthAction.tsx      # Handles auth actions (reset, verify, etc.)
-│   ├── AuthHandler.tsx     # URL parameter parser and router
-│   └── AuthDemo.tsx        # Demo interface for testing
-├── firebase/
-│   └── config.ts           # Firebase configuration
-├── App.tsx                 # Main app component
-└── main.tsx               # App entry point
-```
-
-## 🎨 UI Features
-
-- **Responsive Design**: Works perfectly on desktop and mobile
-- **Loading States**: Smooth loading animations and feedback
+- **Branded Experience**: Custom domain instead of Firebase's generic pages
+- **Responsive Design**: Works on all devices
 - **Error Handling**: Clear error messages and recovery options
-- **Success States**: Confirmation messages and next steps
-- **Modern Design**: Clean, professional interface with Tailwind CSS
-- **Accessibility**: Proper form labels and keyboard navigation
-
-## 🔒 Security Features
-
-- **Code Verification**: Validates action codes before processing
-- **Password Requirements**: Enforces minimum password length
-- **Error Prevention**: Prevents common user errors with validation
-- **Secure Handling**: Proper error handling without exposing sensitive data
-- **HTTPS Required**: Production deployment requires HTTPS
+- **Security**: Validates action codes before processing
+- **User Feedback**: Loading states and success confirmations
+- **Automatic Redirects**: Returns users to main app after completion
 
 ## 🚀 Deployment
 
@@ -128,23 +79,48 @@ src/
 npm run build
 ```
 
-2. Deploy to your hosting provider (Netlify, Vercel, etc.)
+2. Deploy to your hosting provider
 
-3. Update Firebase Console with your production domain
+3. Point `auth.turri.in.net` to your deployment
 
-4. Test all authentication flows in production
+4. Update Firebase Console with the production URL
 
-## 📝 Common Issues
+## 🔒 Security
 
-1. **Invalid Action Code**: Usually means the link has expired or been used
-2. **CORS Issues**: Make sure your domain is authorized in Firebase
-3. **Email Not Sent**: Check spam folder and Firebase quotas
-4. **Redirect Issues**: Verify the `continueUrl` parameter is correct
+- All action codes are validated with Firebase before processing
+- HTTPS required for production
+- Proper error handling without exposing sensitive data
+- Password requirements enforced (minimum 6 characters)
 
-## 🤝 Contributing
+## 📁 Project Structure
 
-Feel free to submit issues and enhancement requests!
+```
+src/
+├── components/
+│   ├── AuthAction.tsx      # Handles password reset, email verification
+│   └── AuthHandler.tsx     # URL parameter parser and router
+├── firebase/
+│   └── config.ts           # Firebase configuration
+├── App.tsx                 # Main app component
+└── main.tsx               # App entry point
+```
 
-## 📄 License
+## 🛠️ Development
 
-This project is licensed under the MIT License.
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+```
+
+## 📝 Notes
+
+- The site automatically detects if it's handling an auth action based on URL parameters
+- If no auth parameters are present, it shows a simple landing page
+- All successful actions redirect back to `https://turri.in.net` by default
+- The `continueUrl` parameter can override the default redirect

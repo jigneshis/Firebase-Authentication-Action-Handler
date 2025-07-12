@@ -37,10 +37,10 @@ const AuthHandler: React.FC = () => {
             The authentication action link is invalid or missing required parameters.
           </p>
           <button
-            onClick={() => window.location.href = '/'}
+            onClick={() => window.location.href = 'https://turri.in.net'}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            Go to App
+            Return to App
           </button>
         </div>
       </div>

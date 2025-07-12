@@ -120,10 +120,10 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Error</h2>
           <p className="text-red-600 mb-6">{error}</p>
           <button
-            onClick={() => window.location.href = continueUrl || '/'}
+            onClick={() => window.location.href = continueUrl || 'https://turri.in.net'}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
           >
-            Go to App
+            Return to App
           </button>
         </div>
       );
@@ -136,18 +136,19 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
           <h2 className="text-2xl font-bold text-gray-900 mb-2">
             {mode === 'resetPassword' ? 'Password Reset Successfully!' : 
              mode === 'verifyEmail' ? 'Email Verified!' : 
-             'Email Recovered!'}
+             mode === 'recoverEmail' ? 'Email Recovered!' : 'Action Completed!'}
           </h2>
           <p className="text-gray-600 mb-6">
             {mode === 'resetPassword' ? 'Your password has been updated successfully.' :
              mode === 'verifyEmail' ? 'Your email has been verified successfully.' :
-             'Your email has been recovered successfully.'}
+             mode === 'recoverEmail' ? 'Your email has been recovered successfully.' :
+             'The requested action has been completed successfully.'}
           </p>
           <button
-            onClick={() => window.location.href = continueUrl || '/'}
+            onClick={() => window.location.href = continueUrl || 'https://turri.in.net'}
             className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
           >
-            Continue to App
+            Return to App
           </button>
         </div>
       );
@@ -236,10 +237,10 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
         <h2 className="text-2xl font-bold text-gray-900 mb-2">Invalid Action</h2>
         <p className="text-gray-600 mb-6">The requested action is not supported.</p>
         <button
-          onClick={() => window.location.href = continueUrl || '/'}
+          onClick={() => window.location.href = continueUrl || 'https://turri.in.net'}
           className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
         >
-          Go to App
+          Return to App
         </button>
       </div>
     );
