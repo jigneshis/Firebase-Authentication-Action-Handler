@@ -1,5 +1,7 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AuthHandler from './components/AuthHandler';
+import NotFound from './components/NotFound';
 import DarkModeToggle from './components/DarkModeToggle';
 
 function App() {
@@ -13,7 +15,19 @@ function App() {
     return <AuthHandler />;
   }
 
-  // If no auth parameters, show a simple landing page
+  // If no auth parameters, use router for other pages
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </Router>
+  );
+}
+
+// Home page component
+const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4 transition-all duration-500">
       <DarkModeToggle />
@@ -57,6 +71,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;
