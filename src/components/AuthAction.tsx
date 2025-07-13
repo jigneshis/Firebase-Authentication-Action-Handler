@@ -107,9 +107,13 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
     if (verifying) {
       return (
         <div className="text-center">
-          <Loader2 className="mx-auto h-12 w-12 animate-spin text-blue-500 dark:text-blue-400 mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Verifying...</h2>
-          <p className="text-gray-600 dark:text-gray-300">Please wait while we verify your request.</p>
+          <div className="relative mb-4">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-500 rounded-2xl flex items-center justify-center mx-auto shadow-lg">
+              <Loader2 className="h-8 w-8 animate-spin text-white" />
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-2">Verifying...</h2>
+          <p className="text-gray-600 dark:text-slate-300">Please wait while we verify your request.</p>
         </div>
       );
     }
@@ -117,12 +121,14 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
     if (error) {
       return (
         <div className="text-center">
-          <AlertCircle className="mx-auto h-12 w-12 text-red-500 dark:text-red-400 mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Error</h2>
-          <p className="text-red-600 dark:text-red-400 mb-6">{error}</p>
+          <div className="w-16 h-16 bg-gradient-to-br from-red-500 to-red-600 dark:from-red-400 dark:to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <AlertCircle className="h-8 w-8 text-white" />
+          </div>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-2">Error</h2>
+          <p className="text-red-600 dark:text-red-400 mb-6 bg-red-50 dark:bg-red-900/20 p-3 rounded-lg border border-red-200 dark:border-red-800/30">{error}</p>
           <button
             onClick={() => window.location.href = continueUrl || 'https://turri.in.net'}
-            className="bg-blue-600 dark:bg-blue-700 text-white px-6 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800 transition-colors"
+            className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-600 dark:hover:to-indigo-600 transition-all duration-200 shadow-lg hover:shadow-xl font-medium"
           >
             Return to App
           </button>
@@ -133,13 +139,15 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
     if (success) {
       return (
         <div className="text-center">
-          <CheckCircle className="mx-auto h-12 w-12 text-green-500 dark:text-green-400 mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 dark:from-green-400 dark:to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <CheckCircle className="h-8 w-8 text-white" />
+          </div>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-2">
             {mode === 'resetPassword' ? 'Password Reset Successfully!' : 
              mode === 'verifyEmail' ? 'Email Verified!' : 
              mode === 'recoverEmail' ? 'Email Recovered!' : 'Action Completed!'}
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
+          <p className="text-gray-600 dark:text-slate-300 mb-6 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border border-green-200 dark:border-green-800/30">
             {mode === 'resetPassword' ? 'Your password has been updated successfully.' :
              mode === 'verifyEmail' ? 'Your email has been verified successfully.' :
              mode === 'recoverEmail' ? 'Your email has been recovered successfully.' :
@@ -147,7 +155,7 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
           </p>
           <button
             onClick={() => window.location.href = continueUrl || 'https://turri.in.net'}
-            className="bg-green-600 dark:bg-green-700 text-white px-6 py-2 rounded-lg hover:bg-green-700 dark:hover:bg-green-800 transition-colors"
+            className="bg-gradient-to-r from-green-600 to-emerald-600 dark:from-green-500 dark:to-emerald-500 text-white px-6 py-3 rounded-xl hover:from-green-700 hover:to-emerald-700 dark:hover:from-green-600 dark:hover:to-emerald-600 transition-all duration-200 shadow-lg hover:shadow-xl font-medium"
           >
             Return to App
           </button>
@@ -159,14 +167,16 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
       return (
         <div>
           <div className="text-center mb-8">
-            <Lock className="mx-auto h-12 w-12 text-blue-500 dark:text-blue-400 mb-4" />
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Reset Your Password</h2>
-            <p className="text-gray-600 dark:text-gray-300">Enter your new password for {email}</p>
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <Lock className="h-8 w-8 text-white" />
+            </div>
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-2">Reset Your Password</h2>
+            <p className="text-gray-600 dark:text-slate-300">Enter your new password for <span className="font-medium text-blue-600 dark:text-blue-400">{email}</span></p>
           </div>
 
           <form onSubmit={handlePasswordReset} className="space-y-6">
             <div>
-              <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="newPassword" className="block text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">
                 New Password
               </label>
               <div className="relative">
@@ -175,14 +185,14 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
                   type={showPassword ? 'text' : 'password'}
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700/50 text-gray-900 dark:text-slate-100 rounded-xl focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-200 backdrop-blur-sm"
                   placeholder="Enter new password"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 transition-colors"
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -190,7 +200,7 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label htmlFor="confirmPassword" className="block text-sm font-semibold text-gray-700 dark:text-slate-300 mb-2">
                 Confirm Password
               </label>
               <div className="relative">
@@ -199,14 +209,14 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
                   type={showConfirmPassword ? 'text' : 'password'}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-slate-600 bg-white dark:bg-slate-700/50 text-gray-900 dark:text-slate-100 rounded-xl focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:border-blue-500 dark:focus:border-blue-400 transition-all duration-200 backdrop-blur-sm"
                   placeholder="Confirm new password"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-slate-400 hover:text-gray-700 dark:hover:text-slate-300 transition-colors"
                 >
                   {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -216,7 +226,7 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 dark:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 dark:hover:bg-blue-800 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 text-white py-3 px-4 rounded-xl font-semibold hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-600 dark:hover:to-indigo-600 focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-offset-2 dark:focus:ring-offset-slate-800 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl"
             >
               {loading ? (
                 <>
@@ -234,12 +244,14 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
 
     return (
       <div className="text-center">
-        <Mail className="mx-auto h-12 w-12 text-blue-500 dark:text-blue-400 mb-4" />
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Invalid Action</h2>
-        <p className="text-gray-600 dark:text-gray-300 mb-6">The requested action is not supported.</p>
+        <div className="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 dark:from-orange-400 dark:to-red-400 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+          <Mail className="h-8 w-8 text-white" />
+        </div>
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-2">Invalid Action</h2>
+        <p className="text-gray-600 dark:text-slate-300 mb-6">The requested action is not supported.</p>
         <button
           onClick={() => window.location.href = continueUrl || 'https://turri.in.net'}
-          className="bg-blue-600 dark:bg-blue-700 text-white px-6 py-2 rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800 transition-colors"
+          className="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 text-white px-6 py-3 rounded-xl hover:from-blue-700 hover:to-indigo-700 dark:hover:from-blue-600 dark:hover:to-indigo-600 transition-all duration-200 shadow-lg hover:shadow-xl font-medium"
         >
           Return to App
         </button>
@@ -248,9 +260,9 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900 flex items-center justify-center p-4 transition-all duration-500">
       <DarkModeToggle />
-      <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
+      <div className="max-w-md w-full bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-2xl shadow-2xl dark:shadow-slate-900/50 p-8 border border-white/20 dark:border-slate-700/50">
         {renderContent()}
       </div>
     </div>
