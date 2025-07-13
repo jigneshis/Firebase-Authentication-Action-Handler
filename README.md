@@ -2,7 +2,7 @@
 
 # 🔐 Firebase Authentication Action Handler
 
-### **Beautiful, Branded Authentication Experience for Turri Platform**
+### **Beautiful, Branded Authentication Experience for Firebase Apps**
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/your-badge-id/deploy-status)](https://app.netlify.com/sites/your-site/deploys)
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
@@ -12,8 +12,8 @@
 
 ---
 
-**🌐 Live Site:** [auth.turri.in.net](https://auth.turri.in.net)  
-**🏠 Main App:** [turri.in.net](https://turri.in.net)
+**🌐 Live Demo:** [auth.turri.in.net](https://auth.turri.in.net)  
+**⭐ Star this repo if it helped you!**
 
 </div>
 
@@ -21,7 +21,7 @@
 
 ## 🎯 **What is This?**
 
-This is a **custom authentication action handler** that provides a branded, professional experience for Firebase authentication actions. Instead of users seeing Firebase's generic pages, they get a beautiful, consistent experience on your domain.
+A **custom authentication action handler** that provides a branded, professional experience for Firebase authentication actions. Instead of users seeing Firebase's generic pages, they get a beautiful, consistent experience on your domain.
 
 <div align="center">
 
@@ -29,7 +29,7 @@ This is a **custom authentication action handler** that provides a branded, prof
 
 | 🚫 **Firebase Default** | ✅ **Your Branded Experience** |
 |:---:|:---:|
-| Generic Firebase domain | `auth.turri.in.net` |
+| Generic Firebase domain | Your custom domain |
 | Basic styling | Beautiful dark/light mode |
 | No branding | Consistent with your app |
 | Poor mobile experience | Fully responsive |
@@ -74,7 +74,7 @@ This is a **custom authentication action handler** that provides a branded, prof
 ```mermaid
 graph LR
     A[User clicks 'Forgot Password'] --> B[Firebase sends email]
-    B --> C[Email contains link to auth.turri.in.net]
+    B --> C[Email contains link to your domain]
     C --> D[User clicks link]
     D --> E[Beautiful branded page loads]
     E --> F[User resets password]
@@ -85,12 +85,52 @@ graph LR
 
 ### **🔄 User Journey**
 
-1. **🔑 User Action** - Clicks "Forgot Password" in your main app
+1. **🔑 User Action** - Clicks "Forgot Password" in your app
 2. **📧 Email Sent** - Firebase sends email with custom action URL
-3. **🌐 Branded Experience** - User lands on `auth.turri.in.net/auth-action`
+3. **🌐 Branded Experience** - User lands on your custom domain
 4. **✨ Beautiful Interface** - Clean, professional password reset form
 5. **🔒 Secure Processing** - Firebase handles all security validation
-6. **↩️ Return Home** - User redirected back to your main app
+6. **↩️ Return Home** - User redirected back to your app
+
+---
+
+## ⚡ **Quick Start**
+
+### **1. Clone & Install**
+
+```bash
+git clone https://github.com/your-username/firebase-auth-handler.git
+cd firebase-auth-handler
+npm install
+```
+
+### **2. Configure Firebase**
+
+Update `src/firebase/config.ts` with your Firebase credentials:
+
+```typescript
+const firebaseConfig = {
+  apiKey: "your-api-key",
+  authDomain: "your-auth-domain",
+  projectId: "your-project-id",
+  // ... other config
+};
+```
+
+### **3. Update Firebase Console**
+
+Set this URL in Firebase Console for **ALL** email templates:
+
+```bash
+https://your-domain.com/auth-action
+```
+
+### **4. Deploy**
+
+```bash
+npm run build
+# Deploy to Netlify, Vercel, or your preferred platform
+```
 
 ---
 
@@ -103,14 +143,6 @@ graph LR
 - [ ] Update Action URL for each template
 - [ ] Test with a real email
 
-### **🎯 Action URL Configuration**
-
-Set this URL in Firebase Console for **ALL** email templates:
-
-```bash
-https://auth.turri.in.net/auth-action
-```
-
 <details>
 <summary><strong>📖 Detailed Setup Instructions</strong></summary>
 
@@ -120,7 +152,7 @@ https://auth.turri.in.net/auth-action
    ```
 
 2. **Select Your Project**
-   - Choose your Turri project
+   - Choose your Firebase project
 
 3. **Navigate to Authentication**
    ```
@@ -183,13 +215,13 @@ https://auth.turri.in.net/auth-action
 
 ```bash
 # Password Reset
-https://auth.turri.in.net/auth-action?mode=resetPassword&oobCode=ABC123&continueUrl=https://turri.in.net
+https://your-domain.com/auth-action?mode=resetPassword&oobCode=ABC123&continueUrl=https://your-app.com
 
 # Email Verification  
-https://auth.turri.in.net/auth-action?mode=verifyEmail&oobCode=XYZ789&continueUrl=https://turri.in.net
+https://your-domain.com/auth-action?mode=verifyEmail&oobCode=XYZ789&continueUrl=https://your-app.com
 
 # Email Change
-https://auth.turri.in.net/auth-action?mode=verifyAndChangeEmail&oobCode=DEF456&continueUrl=https://turri.in.net
+https://your-domain.com/auth-action?mode=verifyAndChangeEmail&oobCode=DEF456&continueUrl=https://your-app.com
 ```
 
 ### **🔍 Parameter Reference**
@@ -198,31 +230,12 @@ https://auth.turri.in.net/auth-action?mode=verifyAndChangeEmail&oobCode=DEF456&c
 |:---|:---:|:---|:---|
 | `mode` | ✅ | Authentication action type | `resetPassword` |
 | `oobCode` | ✅ | One-time action code from Firebase | `ABC123...` |
-| `continueUrl` | ❌ | Redirect URL after completion | `https://turri.in.net` |
+| `continueUrl` | ❌ | Redirect URL after completion | `https://your-app.com` |
 | `lang` | ❌ | Language code for localization | `en` |
 
 ---
 
 ## 💻 **Development**
-
-### **🚀 Quick Start**
-
-```bash
-# Clone the repository
-git clone https://github.com/your-username/firebase-auth-handler.git
-
-# Navigate to project
-cd firebase-auth-handler
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-```
 
 ### **📁 Project Structure**
 
@@ -232,7 +245,7 @@ src/
 │   ├── AuthAction.tsx      # Main auth action handler
 │   ├── AuthHandler.tsx     # URL parameter parser
 │   ├── DarkModeToggle.tsx  # Theme switcher
-│   └── NotFound.tsx        # 404 page with custom GIF
+│   └── NotFound.tsx        # 404 page
 ├── firebase/
 │   └── config.ts           # Firebase configuration
 ├── hooks/
@@ -241,26 +254,27 @@ src/
 └── main.tsx               # Entry point
 ```
 
-### **🔧 Environment Setup**
+### **🚀 Development Commands**
 
-Update `src/firebase/config.ts` with your Firebase credentials:
+```bash
+# Start development server
+npm run dev
 
-```typescript
-const firebaseConfig = {
-  apiKey: "your-api-key",
-  authDomain: "your-auth-domain",
-  projectId: "your-project-id",
-  storageBucket: "your-storage-bucket",
-  messagingSenderId: "your-messaging-sender-id",
-  appId: "your-app-id"
-};
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Lint code
+npm run lint
 ```
 
 ---
 
 ## 🚀 **Deployment**
 
-### **📦 Netlify Deployment**
+### **📦 Netlify (Recommended)**
 
 This project is optimized for Netlify with automatic SPA routing:
 
@@ -272,11 +286,11 @@ npm run build
 # The netlify.toml file handles all configuration
 ```
 
-### **🔧 Configuration Files**
+### **🔧 Other Platforms**
 
-- **`netlify.toml`** - Build settings and redirects
-- **`public/_redirects`** - SPA routing for auth-action URLs
-- **`package.json`** - Build scripts and dependencies
+- **Vercel**: Works out of the box
+- **GitHub Pages**: Requires additional SPA routing setup
+- **Firebase Hosting**: Perfect integration with Firebase
 
 ---
 
@@ -305,7 +319,7 @@ npm run build
 <td width="50%">
 
 #### **🌞 Light Mode**
-- **Background:** Pure White (`#FFFFFF`)
+- **Background:** Pure White
 - **Cards:** White with Gray Borders
 - **Text:** Black Headings, Gray Body
 - **Buttons:** Black with White Text
@@ -315,7 +329,7 @@ npm run build
 <td width="50%">
 
 #### **🌙 Dark Mode**
-- **Background:** Pure Black (`#000000`)
+- **Background:** Pure Black
 - **Cards:** Dark Gray with Gray Borders  
 - **Text:** White Headings, Light Gray Body
 - **Buttons:** White with Black Text
@@ -325,15 +339,12 @@ npm run build
 </tr>
 </table>
 
-### **📱 Responsive Breakpoints**
+### **📱 Responsive Design**
 
-```css
-/* Mobile First Approach */
-sm: 640px   /* Small devices */
-md: 768px   /* Medium devices */
-lg: 1024px  /* Large devices */
-xl: 1280px  /* Extra large devices */
-```
+- **Mobile First**: Optimized for mobile devices
+- **Flexible Layouts**: Adapts to all screen sizes
+- **Touch Friendly**: Large tap targets for mobile
+- **Fast Loading**: Optimized images and assets
 
 ---
 
@@ -342,32 +353,53 @@ xl: 1280px  /* Extra large devices */
 We welcome contributions! Here's how you can help:
 
 ### **🐛 Bug Reports**
-- Use the issue template
-- Include screenshots
-- Provide reproduction steps
+1. Check existing issues first
+2. Use the issue template
+3. Include screenshots
+4. Provide reproduction steps
 
 ### **✨ Feature Requests**
-- Describe the use case
-- Explain the expected behavior
-- Consider backward compatibility
+1. Describe the use case
+2. Explain the expected behavior
+3. Consider backward compatibility
 
 ### **🔧 Pull Requests**
-- Fork the repository
-- Create a feature branch
-- Write clear commit messages
-- Include tests if applicable
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ---
 
-## 📞 **Support & Contact**
+## 📊 **Browser Support**
+
+| Browser | Version | Status |
+|:---|:---:|:---:|
+| **Chrome** | 90+ | ✅ Fully Supported |
+| **Firefox** | 88+ | ✅ Fully Supported |
+| **Safari** | 14+ | ✅ Fully Supported |
+| **Edge** | 90+ | ✅ Fully Supported |
+
+---
+
+## 🔗 **Related Projects**
+
+- [Firebase Documentation](https://firebase.google.com/docs/auth) - Official Firebase Auth docs
+- [React Firebase Hooks](https://github.com/CSFrequency/react-firebase-hooks) - React hooks for Firebase
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+
+---
+
+## 📞 **Support & Community**
 
 <div align="center">
 
 ### **Need Help?**
 
-| 📧 **Email** | 🌐 **Website** | 💬 **Discord** |
+| 📧 **Issues** | 💬 **Discussions** | 🌟 **Star** |
 |:---:|:---:|:---:|
-| [support@turri.in.net](mailto:support@turri.in.net) | [turri.in.net](https://turri.in.net) | [Join Server](https://discord.gg/turri) |
+| [Report Bug](https://github.com/your-username/firebase-auth-handler/issues) | [Join Discussion](https://github.com/your-username/firebase-auth-handler/discussions) | [Star Repo](https://github.com/your-username/firebase-auth-handler) |
 
 </div>
 
@@ -375,10 +407,12 @@ We welcome contributions! Here's how you can help:
 
 ## 📄 **License**
 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
 ```
 MIT License
 
-Copyright (c) 2024 Turri Platform
+Copyright (c) 2024 Your Name
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -405,7 +439,7 @@ SOFTWARE.
 
 ### **⭐ Star this repository if it helped you!**
 
-**Made with ❤️ for the Turri Platform**
+**Made with ❤️ for the Firebase community**
 
 [🔝 Back to Top](#-firebase-authentication-action-handler)
 
