@@ -12,7 +12,7 @@
 
 ---
 
-**🌐 Live Demo:** [auth.turri.in.net](https://auth.turri.in.net)  
+**🌐 Live Example (working for https://turri.in.net):** [auth.turri.in.net](https://auth.turri.in.net)  
 **⭐ Star this repo if it helped you!**
 
 </div>
