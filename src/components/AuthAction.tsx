@@ -4,7 +4,8 @@ import {
   confirmPasswordReset, 
   verifyPasswordResetCode,
   checkActionCode,
-  ActionCodeSettings
+  ActionCodeSettings,
+  ActionCodeInfo
 } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { CheckCircle, AlertCircle, Lock, Mail, Loader2, Eye, EyeOff } from 'lucide-react';
@@ -27,12 +28,15 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [verifying, setVerifying] = useState(true);
+  const [actionInfo, setActionInfo] = useState<ActionCodeInfo | null>(null);
 
   useEffect(() => {
     if (mode === 'resetPassword') {
       verifyResetCode();
     } else if (mode === 'verifyEmail') {
       verifyEmailCode();
+    } else if (mode === 'verifyAndChangeEmail') {
+      verifyAndChangeEmail();
     } else if (mode === 'recoverEmail') {
       recoverEmail();
     }
@@ -53,11 +57,29 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
   const verifyEmailCode = async () => {
     try {
       setVerifying(true);
+      const info = await checkActionCode(auth, oobCode);
+      setActionInfo(info);
       await applyActionCode(auth, oobCode);
       setSuccess(true);
       setVerifying(false);
     } catch (error: any) {
       setError('Invalid or expired verification code. Please check your email for a new verification link.');
+      setVerifying(false);
+    }
+  };
+
+  const verifyAndChangeEmail = async () => {
+    try {
+      setVerifying(true);
+      const info = await checkActionCode(auth, oobCode);
+      setActionInfo(info);
+      
+      // Apply the email change
+      await applyActionCode(auth, oobCode);
+      setSuccess(true);
+      setVerifying(false);
+    } catch (error: any) {
+      setError('Invalid or expired email change verification code. Please request a new email change.');
       setVerifying(false);
     }
   };
@@ -145,11 +167,13 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
           <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-2">
             {mode === 'resetPassword' ? 'Password Reset Successfully!' : 
              mode === 'verifyEmail' ? 'Email Verified!' : 
+             mode === 'verifyAndChangeEmail' ? 'Email Changed Successfully!' :
              mode === 'recoverEmail' ? 'Email Recovered!' : 'Action Completed!'}
           </h2>
           <p className="text-gray-600 dark:text-slate-300 mb-6 bg-green-50 dark:bg-green-900/20 p-3 rounded-lg border border-green-200 dark:border-green-800/30">
             {mode === 'resetPassword' ? 'Your password has been updated successfully.' :
              mode === 'verifyEmail' ? 'Your email has been verified successfully.' :
+             mode === 'verifyAndChangeEmail' ? `Your email has been successfully changed${actionInfo?.data?.email ? ` to ${actionInfo.data.email}` : ''}.` :
              mode === 'recoverEmail' ? 'Your email has been recovered successfully.' :
              'The requested action has been completed successfully.'}
           </p>
@@ -159,6 +183,29 @@ const AuthAction: React.FC<AuthActionProps> = ({ mode, oobCode, continueUrl, lan
           >
             Return to App
           </button>
+        </div>
+      );
+    }
+
+    if (mode === 'verifyAndChangeEmail') {
+      return (
+        <div className="text-center">
+          <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 dark:from-blue-400 dark:to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+            <Mail className="h-8 w-8 text-white" />
+          </div>
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent mb-2">Verify Email Change</h2>
+          <p className="text-gray-600 dark:text-slate-300 mb-6">
+            {actionInfo?.data?.email ? (
+              <>Verifying your new email address: <span className="font-medium text-blue-600 dark:text-blue-400">{actionInfo.data.email}</span></>
+            ) : (
+              'Verifying your email change request...'
+            )}
+          </p>
+          <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-200 dark:border-blue-800/30">
+            <p className="text-sm text-blue-700 dark:text-blue-300">
+              <strong>Note:</strong> Once verified, this will become your new email address for signing in.
+            </p>
+          </div>
         </div>
       );
     }

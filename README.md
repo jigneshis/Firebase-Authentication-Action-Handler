@@ -34,6 +34,7 @@ Set the following Action URL in Firebase Console:
 ### Supported Actions:
 - **Password Reset** (`mode=resetPassword`)
 - **Email Verification** (`mode=verifyEmail`) 
+- **Email Change Verification** (`mode=verifyAndChangeEmail`)
 - **Email Recovery** (`mode=recoverEmail`)
 
 ## 🔧 Technical Details
@@ -41,10 +42,11 @@ Set the following Action URL in Firebase Console:
 ### URL Structure
 ```
 https://auth.turri.in.net/auth-action?mode=resetPassword&oobCode=ABC123&continueUrl=https://turri.in.net
+https://auth.turri.in.net/auth-action?mode=verifyAndChangeEmail&oobCode=XYZ789&continueUrl=https://turri.in.net
 ```
 
 **Parameters:**
-- `mode`: Action type (resetPassword, verifyEmail, recoverEmail)
+- `mode`: Action type (resetPassword, verifyEmail, verifyAndChangeEmail, recoverEmail)
 - `oobCode`: One-time action code from Firebase
 - `continueUrl`: Redirect URL after completion (optional)
 - `lang`: Language code (optional)
